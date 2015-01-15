@@ -19,6 +19,8 @@ public class TimeTrackerAdapter extends BaseAdapter {
 		times.add(new TimeRecord("26.21", "I'm rocking it!"));
 		times.add(new TimeRecord("29.42",
 				"Lost some time on the hills, but pretty good."));
+		times.add(new TimeRecord("4.36",
+				"Commited this project - Github"));
 	}
 
 	public void addTimeRecord(TimeRecord timeRecord){
