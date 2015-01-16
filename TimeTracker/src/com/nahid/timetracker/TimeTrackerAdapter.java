@@ -2,29 +2,42 @@ package com.nahid.timetracker;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class TimeTrackerAdapter extends BaseAdapter {
+public class TimeTrackerAdapter extends CursorAdapter {
 
 	private ArrayList<TimeRecord> times = new ArrayList<TimeRecord>();
 
-	public TimeTrackerAdapter() {
-
-		times.add(new TimeRecord("38.23", "Feeling Good"));
-		times.add(new TimeRecord("49.01", "Tired. Need more caffeine"));
-		times.add(new TimeRecord("26.21", "I'm rocking it!"));
-		times.add(new TimeRecord("29.42",
-				"Lost some time on the hills, but pretty good."));
-		times.add(new TimeRecord("4.36",
-				"Commited this project - Github"));
+	public TimeTrackerAdapter(Context context, Cursor cursor) {
+		super(context, cursor);
 	}
 
 	public void addTimeRecord(TimeRecord timeRecord){
 		times.add(timeRecord);
+	}
+	
+	@Override
+	public void bindView(View view, Context context, Cursor cursor) {
+		TextView nameTextView = (TextView) view.findViewById(R.id.time_view);
+		//nameTextView.setText(cursor.getString(1));
+		nameTextView.setText(cursor.getString(cursor.getColumnIndex("1")));
+		TextView valueTextView = (TextView) view.findViewById(R.id.notes_view);
+		//valueTextView.setText(cursor.getString(2));
+		valueTextView.setText(cursor.getString(cursor.getColumnIndex("2")));
+		
+	}
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+		View view = inflater.inflate(R.layout.time_list_item, parent, false);
+		return view;
 	}
 	@Override
 	public int getCount() {
@@ -63,5 +76,7 @@ public class TimeTrackerAdapter extends BaseAdapter {
 
 		return view;
 	}
+
+
 
 }

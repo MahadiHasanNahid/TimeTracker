@@ -12,15 +12,21 @@ public class TimeTracker extends Activity {
 
 	TimeTrackerAdapter timeTrackerAdapter;
 	public static final int TIME_ENTRY_REQUEST_CODE = 1;
-
+	private static final String TIME_KEY = "time";
+	private static final String NOTES_KEY = "notes";
+	private TimeTrackerDatabaseHelper databaseHelper;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		databaseHelper = new TimeTrackerDatabaseHelper(this);
+		
+		
 		ListView listView = (ListView) findViewById(R.id.time_list);
-		timeTrackerAdapter = new TimeTrackerAdapter();
+		timeTrackerAdapter = new TimeTrackerAdapter(this, databaseHelper.getAllTimeRecords());
 		listView.setAdapter(timeTrackerAdapter);
+
 	}
 
 	@Override
@@ -38,10 +44,12 @@ public class TimeTracker extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == TIME_ENTRY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				String time = data.getStringExtra("time");
-				String notes = data.getStringExtra("notes");
-				timeTrackerAdapter.addTimeRecord(new TimeRecord(time, notes));
-				timeTrackerAdapter.notifyDataSetChanged();
+				String time = data.getStringExtra(TIME_KEY);
+				String notes = data.getStringExtra(NOTES_KEY);
+				
+				databaseHelper.saveTimeRecord(time, notes);
+				
+				timeTrackerAdapter.changeCursor(databaseHelper.getAllTimeRecords());
 				
 			}
 		}	
