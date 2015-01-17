@@ -24,7 +24,7 @@ public class TimeTracker extends Activity {
 		
 		
 		ListView listView = (ListView) findViewById(R.id.time_list);
-		timeTrackerAdapter = new TimeTrackerAdapter(this, databaseHelper.getAllTimeRecords());
+		timeTrackerAdapter = new TimeTrackerAdapter(this, databaseHelper.getTimeRecordList());
 		listView.setAdapter(timeTrackerAdapter);
 
 	}
@@ -49,7 +49,7 @@ public class TimeTracker extends Activity {
 				
 				databaseHelper.saveTimeRecord(time, notes);
 				
-				timeTrackerAdapter.changeCursor(databaseHelper.getAllTimeRecords());
+				timeTrackerAdapter.changeCursor(databaseHelper.getTimeRecordList());
 				
 			}
 		}	

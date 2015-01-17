@@ -25,11 +25,11 @@ public class TimeTrackerAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		TextView nameTextView = (TextView) view.findViewById(R.id.time_view);
+		nameTextView.setText(cursor.getString(1));
 		//nameTextView.setText(cursor.getString(1));
-		nameTextView.setText(cursor.getString(cursor.getColumnIndex("1")));
 		TextView valueTextView = (TextView) view.findViewById(R.id.notes_view);
-		//valueTextView.setText(cursor.getString(2));
-		valueTextView.setText(cursor.getString(cursor.getColumnIndex("2")));
+		valueTextView.setText(cursor.getString(2));
+		//valueTextView.setText(cursor.getString(cursor.getColumnIndex("2")));
 		
 	}
 
@@ -39,21 +39,19 @@ public class TimeTrackerAdapter extends CursorAdapter {
 		View view = inflater.inflate(R.layout.time_list_item, parent, false);
 		return view;
 	}
+	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return times.size();
 	}
 
 	@Override
 	public Object getItem(int index) {
-		// TODO Auto-generated method stub
 		return getItem(index);
 	}
 
 	@Override
 	public long getItemId(int index) {
-		// TODO Auto-generated method stub
 		return index;
 	}
 

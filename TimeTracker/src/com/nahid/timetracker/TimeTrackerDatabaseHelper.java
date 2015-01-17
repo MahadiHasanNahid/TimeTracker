@@ -24,17 +24,25 @@ public class TimeTrackerDatabaseHelper {
 	}
 
 	public void saveTimeRecord(String time, String notes) {
+		/*
+		database.execSQL("INSERT INTO TIMERECORDS"
+				+ " (TIME, NOTES)"
+				+ " VALUES ('" + time + "', '" + notes + "')"
+				);
+				*/
 		ContentValues contentValues = new ContentValues();
+		
 		contentValues.put(TIMETRACKER_COLUMN_TIME, time);
 		contentValues.put(TIMETRACKER_COLUMN_NOTES, notes);
+		
 		database.insert(TABLE_NAME, null, contentValues);
 	}
-
-	public Cursor getAllTimeRecords() {
-		return database.rawQuery("select * from " 
-				+ TABLE_NAME, null);
+	
+	public Cursor getTimeRecordList() {
+		return database.rawQuery("select * from " + TABLE_NAME, null);
 	}
-
+	
+	
 	private class TimeTrackerOpenHelper extends SQLiteOpenHelper {
 
 		public TimeTrackerOpenHelper(Context context) {
@@ -43,15 +51,16 @@ public class TimeTrackerDatabaseHelper {
 
 		@Override
 		public void onCreate(SQLiteDatabase database) {
-			database.execSQL("CREATE TABLE " + TABLE_NAME + " ( "
+			database.execSQL(
+					"CREATE TABLE " + TABLE_NAME + "( "
 					+ TIMETRACKER_COLUMN_ID + " INTEGER PRIMARY KEY, "
 					+ TIMETRACKER_COLUMN_TIME + " TEXT, "
-					+ TIMETRACKER_COLUMN_NOTES + " TEXT )");
+					+ TIMETRACKER_COLUMN_NOTES + " TEXT )"
+					);
 		}
-
+	
 		@Override
-		public void onUpgrade(SQLiteDatabase database, int oldVersion,
-				int newVersion) {
+		public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 			database.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 			onCreate(database);
 		}
